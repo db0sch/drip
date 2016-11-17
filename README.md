@@ -17,4 +17,4 @@ An API app that get job offers and distribute them through the Facebook Messenge
 The db_schema.xml file is included in this github repo.
 Here is a screenshot of the v1:
 
-![alt tag]('drip/db_schema.png')
+![alt tag](db_schema.png)
