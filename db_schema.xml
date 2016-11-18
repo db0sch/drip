@@ -82,7 +82,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1396" y="267" name="companies">
+<table x="1355" y="435" name="companies">
 <row name="id" null="1" autoincrement="1">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
@@ -93,7 +93,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="796" y="322" name="submissions">
+<table x="810" y="318" name="submissions">
 <row name="id" null="1" autoincrement="1">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
@@ -105,11 +105,14 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default><relation table="offers" row="id" />
 </row>
+<row name="read_at" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="598" y="144" name="interests">
+<table x="833" y="96" name="interests">
 <row name="id" null="1" autoincrement="1">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
@@ -117,18 +120,15 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default><relation table="submissions" row="id" />
 </row>
-<key type="PRIMARY" name="">
-<part>id</part>
-</key>
-</table>
-<table x="1009" y="161" name="applications">
-<row name="id" null="1" autoincrement="1">
+<row name="details" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
-<row name="submission_id" null="1" autoincrement="0">
+<row name="read_at" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
-<default>NULL</default><relation table="submissions" row="id" />
-</row>
+<default>NULL</default></row>
+<row name="application" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
