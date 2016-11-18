@@ -13,4 +13,10 @@ RSpec.describe Category, type: :model do
       expect(subject).to_not be_valid
     end
   end
+
+  describe "Associations" do
+    it { should have_many(:job_offers) }
+    it { should have_many(:job_preferences) }
+    it { should have_many(:users) }
+  end
 end

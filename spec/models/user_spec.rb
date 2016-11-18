@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
     it "is valid with valid attributes" do
       expect(subject).to be_valid
     end
+
     it "is not valid without a name" do
       subject.name = nil
       expect(subject).to_not be_valid
@@ -28,5 +29,12 @@ RSpec.describe User, type: :model do
       subject.driver_licence = nil
       expect(subject).to_not be_valid
     end
+  end
+
+  describe "Associations" do
+    it { should have_many(:submissions) }
+    it { should have_many(:interests) }
+    it { should have_many(:job_preferences) }
+    it { should have_many(:categories) }
   end
 end

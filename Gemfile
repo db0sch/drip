@@ -30,6 +30,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # Testing Framework (RSpec)
   gem 'rspec-rails', '~> 3.5'
+  gem 'shoulda-matchers'
 end
 
 group :development do
