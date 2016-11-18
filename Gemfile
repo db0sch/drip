@@ -23,9 +23,12 @@ gem 'puma', '~> 3.0'
 # Security (credentials)
 gem 'figaro'
 
+# Testing Framework (RSpec)
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do
