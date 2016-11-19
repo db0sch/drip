@@ -26,6 +26,10 @@ RSpec.describe Interest, type: :model do
 
   describe "Validations" do
 
+    it "is valid with valid argments" do
+      expect(subject).to be_valid
+    end
+
     it "is not valid without a submission" do
       subject.submission = nil
       expect(subject).to_not be_valid
