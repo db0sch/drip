@@ -57,7 +57,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1099" y="344" name="offers">
+<table x="1099" y="344" name="job_offers">
 <row name="id" null="1" autoincrement="1">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
@@ -101,9 +101,9 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default><relation table="users" row="id" />
 </row>
-<row name="offer_id" null="1" autoincrement="0">
+<row name="job_offer_id" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
-<default>NULL</default><relation table="offers" row="id" />
+<default>NULL</default><relation table="job_offers" row="id" />
 </row>
 <row name="read_at" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
