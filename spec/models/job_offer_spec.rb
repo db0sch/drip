@@ -40,13 +40,11 @@ RSpec.describe JobOffer, type: :model do
     end
 
     it "should validates_associates category" do
-      # TODO
-      raise
+      expect(subject.category).to be_valid
     end
 
     it "should validates_associates company" do
-      # TODO
-      raise
+      expect(subject.company).to be_valid
     end
   end
 
