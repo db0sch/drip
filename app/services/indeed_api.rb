@@ -27,7 +27,6 @@ class IndeedApi
       update_infos(job_offer)
     end
     # return something (true?)
-    # handle error with raise and begin
   end
 
   private
@@ -54,12 +53,12 @@ class IndeedApi
 
   def call_api_getjob(jobkey)
     begin
-      url = "http://api.indeed.com/ads/apigetjobs?publisher=#{@publisher_key}&jobkeys=#{jobkey}=2&format=json"
+      url = "http://api.indeed.com/ads/apigetjobs?publisher=#{@publisher_key}&jobkeys=#{jobkey}&v=2&format=json"
       offers_serialized = open(url).read
       offers = JSON.parse(offers_serialized)
       fail unless offers['results']
     rescue => e
-      puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - category: #{params[:category]}*****"
+      puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - jobkey: #{jobkey}*****"
       sleep 2
       retry
     end
@@ -67,17 +66,17 @@ class IndeedApi
   end
 
   def update_infos(job_offer)
-    result = call_api_getjob(job_offer.jobkey)
+    result = call_api_getjob(job_offer.jobkey).first
     args = {
       description_additional: result['snippet'],
       url_source_original: result['url'],
       expired: result['expired']
     }
-    job_offer.update(args)
+    job_offer.update(args) if result
   end
 
   def create_job_offers(offer, category)
-
+    puts "creating job: #{offer["jobtitle"]} for company: #{offer["company"]}"
     args = {
       title: offer["jobtitle"],
       company: find_or_create_company(offer["company"]),
@@ -92,24 +91,22 @@ class IndeedApi
       url_source_primary: offer["url"],
       jobkey: offer["jobkey"]
     }
-    # start_date: ,
-    # new instance variable ==> Migration needed.
-    # description_additional: ,
-    # url_source_original:
 
     if job = JobOffer.create(args)
-      p "JobOffer: #{job.title} is valid!"
+      puts "JobOffer: #{job.title} is valid!"
     else
-      p "*** JobOffer: #{job.title} is NNNNOOOOOTTTT valid! ***"
+      puts "*** JobOffer: #{job.title} is NNNNOOOOOTTTT valid! ***"
     end
 
-    job
+    return job
   end
 
   def find_or_create_company(name)
     if company = Company.find_by_name(name)
+      puts "Company: #{name} exist !!!"
       return company
     else
+      puts "Company: #{name} doesn't exist yet. Let's create it."
       return company = Company.create(name: name)
     end
   end
