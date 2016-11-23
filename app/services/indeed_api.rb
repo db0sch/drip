@@ -16,12 +16,16 @@ class IndeedApi
       results_by_category[category] = call_api_search(category.name)
     end
     # create a job_offer instace for each result
+    job_offers = []
     results_by_category.each do |category, results|
       results.each do |result|
-        job_offer_instances(result, category)
+        job_offers << create_job_offers(result, category)
       end
     end
-    p "end"
+
+    job_offers.each do |job_offer|
+      update_infos(job_offer)
+    end
     # return something (true?)
     # handle error with raise and begin
   end
@@ -36,7 +40,6 @@ class IndeedApi
         country: @locations[1],
         limit: 2,
       }
-
       url = "http://api.indeed.com/ads/apisearch?publisher=#{@publisher_key}&q=#{params[:category]}&l=#{params[:city]}&sort=&radius=&st=&jt=&start=&limit=#{params[:limit]}&fromage=&filter=&latlong=1&co=#{params[:country]}&format=json&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2"
       offers_serialized = open(url).read
       offers = JSON.parse(offers_serialized)
@@ -49,7 +52,31 @@ class IndeedApi
     return offers['results']
   end
 
-  def job_offer_instances(offer, category)
+  def call_api_getjob(jobkey)
+    begin
+      url = "http://api.indeed.com/ads/apigetjobs?publisher=#{@publisher_key}&jobkeys=#{jobkey}=2&format=json"
+      offers_serialized = open(url).read
+      offers = JSON.parse(offers_serialized)
+      fail unless offers['results']
+    rescue => e
+      puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - category: #{params[:category]}*****"
+      sleep 2
+      retry
+    end
+    return offers['results']
+  end
+
+  def update_infos(job_offer)
+    result = call_api_getjob(job_offer.jobkey)
+    args = {
+      description_additional: result['snippet'],
+      url_source_original: result['url'],
+      expired: result['expired']
+    }
+    job_offer.update(args)
+  end
+
+  def create_job_offers(offer, category)
 
     args = {
       title: offer["jobtitle"],
@@ -62,7 +89,7 @@ class IndeedApi
       date: DateTime.parse(offer["date"]),
       source_primary: "indeed",
       source_original: offer["source"],
-      # url_source_primary: offer["url"],
+      url_source_primary: offer["url"],
       jobkey: offer["jobkey"]
     }
     # start_date: ,
@@ -70,9 +97,13 @@ class IndeedApi
     # description_additional: ,
     # url_source_original:
 
-    job = JobOffer.new(args)
-    p "JobOffer: #{job.title} is valid!" if job.valid?
-    job.save
+    if job = JobOffer.create(args)
+      p "JobOffer: #{job.title} is valid!"
+    else
+      p "*** JobOffer: #{job.title} is NNNNOOOOOTTTT valid! ***"
+    end
+
+    job
   end
 
   def find_or_create_company(name)
