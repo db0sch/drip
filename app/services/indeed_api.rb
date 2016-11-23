@@ -14,22 +14,21 @@ class IndeedApi
     results = []
     @categories.each do |category|
       p category
-      results << call_api(category.name)
+      results << call_api_search(category.name)
     end
     # create a job_offer instace for each result
-    results.each do |result|
+    results.flatten.each do |result|
       # p result['query']
-      p result.class
-      p result.length
+      p result["jobtitle"]
     end
-
+    p "end"
     # return something (true?)
     # handle error with raise and begin
   end
 
   private
 
-  def call_api(category)
+  def call_api_search(category)
     begin
       params = {
         category: category,
