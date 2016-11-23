@@ -11,15 +11,15 @@ class IndeedApi
 
   def get_jobs
     # call the api with parameter, for each category
-    results = []
+    results_by_category = {}
     @categories.each do |category|
-      p category
-      results << call_api_search(category.name)
+      results[category] = call_api_search(category.name)
     end
     # create a job_offer instace for each result
-    results.flatten.each do |result|
-      # p result['query']
-      p result["jobtitle"]
+    results_by_category do |category, results|
+      results.each do |result|
+        job_instances(result, category)
+      end
     end
     p "end"
     # return something (true?)
@@ -49,13 +49,36 @@ class IndeedApi
     return offers['results']
   end
 
-  def job_instances(offer)
-    # p offer.class
-    # offer.each do { |key, _value| p key }
+  def job_instances(offer, category)
+    args = {
+      title: offer["jobtitle"],
+      # start_date: ,
+      company: company_instace(offer["company"]),
+      category: category,
+      # new instance variable ==> Migration needed.
+      description: offer["snippet"],
+      # description_additional: ,
+      formatted_location: offer["formattedLocation"],
+      city: offer["city"],
+      country: offer["country"]
+      date: DateTime.parse(offer["date"]),
+      source_primary: "indeed",
+      source_original: offer["source"],
+      url_source_primary: offer["url"],
+      # url_source_original: ,
+      jobkey: offer["jobkey"]
+    }
+
+    job = JobOffer.new(args)
+    p "JobOffer: #{job.title} is valid!" if job.valid?
+    job.save
   end
 
-  def method_name
-
+  def company_instance(name)
+    # check if the company already exist
+    # if yes, return the company instance
+    # if no, create the new company instance
+    # and return it
   end
 
 end
