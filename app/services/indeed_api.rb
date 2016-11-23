@@ -13,12 +13,12 @@ class IndeedApi
     # call the api with parameter, for each category
     results_by_category = {}
     @categories.each do |category|
-      results[category] = call_api_search(category.name)
+      results_by_category[category] = call_api_search(category.name)
     end
     # create a job_offer instace for each result
-    results_by_category do |category, results|
+    results_by_category.each do |category, results|
       results.each do |result|
-        job_instances(result, category)
+        job_offer_instances(result, category)
       end
     end
     p "end"
@@ -49,25 +49,26 @@ class IndeedApi
     return offers['results']
   end
 
-  def job_instances(offer, category)
+  def job_offer_instances(offer, category)
+
     args = {
       title: offer["jobtitle"],
-      # start_date: ,
-      company: company_instace(offer["company"]),
+      company: company_instance(offer["company"]),
       category: category,
-      # new instance variable ==> Migration needed.
       description: offer["snippet"],
-      # description_additional: ,
       formatted_location: offer["formattedLocation"],
       city: offer["city"],
-      country: offer["country"]
+      country: offer["country"],
       date: DateTime.parse(offer["date"]),
       source_primary: "indeed",
       source_original: offer["source"],
-      url_source_primary: offer["url"],
-      # url_source_original: ,
+      # url_source_primary: offer["url"],
       jobkey: offer["jobkey"]
     }
+    # start_date: ,
+    # new instance variable ==> Migration needed.
+    # description_additional: ,
+    # url_source_original:
 
     job = JobOffer.new(args)
     p "JobOffer: #{job.title} is valid!" if job.valid?
@@ -77,8 +78,12 @@ class IndeedApi
   def company_instance(name)
     # check if the company already exist
     # if yes, return the company instance
+    if company = Company.find_by_name(name)
+      return company
+    end
     # if no, create the new company instance
     # and return it
+    company = Company.create(name: name)
   end
 
 end
