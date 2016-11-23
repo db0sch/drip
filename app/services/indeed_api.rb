@@ -23,10 +23,7 @@ class IndeedApi
       end
     end
 
-    job_offers.each do |job_offer|
-      update_infos(job_offer)
-    end
-    # return something (true?)
+    job_offers.each { |job_offer| update_infos(job_offer) } if job_offers.any?
   end
 
   private
@@ -37,7 +34,7 @@ class IndeedApi
         category: category,
         city: @locations[0],
         country: @locations[1],
-        limit: 2,
+        limit: 9,
       }
       url = "http://api.indeed.com/ads/apisearch?publisher=#{@publisher_key}&q=#{params[:category]}&l=#{params[:city]}&sort=&radius=&st=&jt=&start=&limit=#{params[:limit]}&fromage=&filter=&latlong=1&co=#{params[:country]}&format=json&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2"
       offers_serialized = open(url).read
@@ -76,29 +73,25 @@ class IndeedApi
   end
 
   def create_job_offers(offer, category)
-    puts "creating job: #{offer["jobtitle"]} for company: #{offer["company"]}"
-    args = {
-      title: offer["jobtitle"],
-      company: find_or_create_company(offer["company"]),
-      category: category,
-      description: offer["snippet"],
-      formatted_location: offer["formattedLocation"],
-      city: offer["city"],
-      country: offer["country"],
-      date: DateTime.parse(offer["date"]),
-      source_primary: "indeed",
-      source_original: offer["source"],
-      url_source_primary: offer["url"],
-      jobkey: offer["jobkey"]
-    }
 
-    if job = JobOffer.create(args)
-      puts "JobOffer: #{job.title} is valid!"
-    else
-      puts "*** JobOffer: #{job.title} is NNNNOOOOOTTTT valid! ***"
+    unless JobOffer.find_by_jobkey(offer["jobkey"])
+      puts "creating job: #{offer["jobtitle"]} for company: #{offer["company"]}"
+      args = {
+        title: offer["jobtitle"],
+        company: find_or_create_company(offer["company"]),
+        category: category,
+        description: offer["snippet"],
+        formatted_location: offer["formattedLocation"],
+        city: offer["city"],
+        country: offer["country"],
+        date: DateTime.parse(offer["date"]),
+        source_primary: "indeed",
+        source_original: offer["source"],
+        url_source_primary: offer["url"],
+        jobkey: offer["jobkey"]
+      }
+      job = JobOffer.create(args)
     end
-
-    return job
   end
 
   def find_or_create_company(name)
