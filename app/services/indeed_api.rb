@@ -53,7 +53,7 @@ class IndeedApi
 
     args = {
       title: offer["jobtitle"],
-      company: company_instance(offer["company"]),
+      company: find_or_create_company(offer["company"]),
       category: category,
       description: offer["snippet"],
       formatted_location: offer["formattedLocation"],
@@ -75,15 +75,12 @@ class IndeedApi
     job.save
   end
 
-  def company_instance(name)
-    # check if the company already exist
-    # if yes, return the company instance
+  def find_or_create_company(name)
     if company = Company.find_by_name(name)
       return company
+    else
+      return company = Company.create(name: name)
     end
-    # if no, create the new company instance
-    # and return it
-    company = Company.create(name: name)
   end
 
 end
