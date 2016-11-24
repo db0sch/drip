@@ -22,8 +22,8 @@ class IndeedApi
         job_offers << create_job_offers(result, category)
       end
     end
-
-    job_offers.each { |job_offer| update_infos(job_offer) } if job_offers.any?
+    p job_offers
+    job_offers.compact.each { |job_offer| update_infos(job_offer) } if job_offers.any?
   end
 
   private
@@ -34,7 +34,7 @@ class IndeedApi
         category: category,
         city: @locations[0],
         country: @locations[1],
-        limit: 9,
+        limit: 20,
       }
       url = "http://api.indeed.com/ads/apisearch?publisher=#{@publisher_key}&q=#{params[:category]}&l=#{params[:city]}&sort=&radius=&st=&jt=&start=&limit=#{params[:limit]}&fromage=&filter=&latlong=1&co=#{params[:country]}&format=json&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2"
       offers_serialized = open(url).read
