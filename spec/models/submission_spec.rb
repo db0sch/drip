@@ -6,11 +6,12 @@ RSpec.describe Submission, type: :model do
   let(:user) { User.new(name:"John Doe", email:"john.doe@email.com", messenger_uid: "123456789", driver_licence: false) }
   let(:job_offer) {
     JobOffer.new(
-    title:"Delivery guy for Foodora",
-    description:"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-    company: company,
-    category: category,
-    start_date: Date.today
+      title:"Delivery guy for Foodora",
+      description:"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+      company: company,
+      category: category,
+      start_date: Date.today,
+      jobkey: "425ee2469338da27"
     )
   }
 
@@ -19,6 +20,7 @@ RSpec.describe Submission, type: :model do
   }
 
   describe "Validations" do
+
     it "is valid with valid attributes" do
       expect(subject).to be_valid
     end

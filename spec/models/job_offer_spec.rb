@@ -10,7 +10,8 @@ RSpec.describe JobOffer, type: :model do
       description:"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
       company: company,
       category: category,
-      start_date: Date.today
+      start_date: Date.today,
+      jobkey: "425ee2469338da27"
     )
   }
 
@@ -36,6 +37,11 @@ RSpec.describe JobOffer, type: :model do
 
     it "is not valid without a category" do
       subject.category = nil
+      expect(subject).to_not be_valid
+    end
+
+    it 'is not valid without a jobkey' do
+      subject.jobkey = nil
       expect(subject).to_not be_valid
     end
 

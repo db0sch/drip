@@ -10,7 +10,12 @@ RSpec.describe Company, type: :model do
 
     it "is not valid without a name" do
       subject.name = nil
-      expect(subject).to_not be_valid
+      expect(subject).to be_valid
+    end
+
+    it "is valid with an empty name" do
+      subject.name = ""
+      expect(subject).to be_valid
     end
   end
 

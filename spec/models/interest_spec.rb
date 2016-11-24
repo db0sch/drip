@@ -2,27 +2,34 @@ require 'rails_helper'
 require 'date'
 
 RSpec.describe Interest, type: :model do
-    let(:company) { Company.new(name:"Apple, Inc") }
-    let(:category) { Category.new(name:"Delivery") }
-    let(:user) { User.new(name:"John Doe", email:"john.doe@email.com", messenger_uid: "123456789", driver_licence: false)
- }
-    let(:job_offer) {
-      JobOffer.new(
-      title:"Delivery guy for Foodora",
-      description:"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-      company: company,
-      category: category,
-      start_date: Date.today
-      )
-    }
-    let(:submission) { Submission.new(user: user, job_offer: job_offer) }
+  let(:company) { Company.new(name:"Apple, Inc") }
+  let(:category) { Category.new(name:"Delivery") }
+  let(:user) {
+    User.new(
+      name:"John Doe",
+      email:"john.doe@email.com",
+      messenger_uid: "123456789",
+      driver_licence: false
+    )
+  }
+  let(:job_offer) {
+    JobOffer.new(
+    title:"Delivery guy for Foodora",
+    description:"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+    company: company,
+    category: category,
+    start_date: Date.today,
+    jobkey: "425ee2469338da27"
+    )
+  }
+  let(:submission) { Submission.new(user: user, job_offer: job_offer) }
 
-    subject {
-      Interest.new(
-        submission: submission,
-        apply_date: DateTime.now
-      )
-    }
+  subject {
+    Interest.new(
+      submission: submission,
+      apply_date: DateTime.now
+    )
+  }
 
   describe "Validations" do
 
