@@ -15,10 +15,14 @@ class IndeedApi
     @categories.each do |category|
       job_offers_attributes << call_api_search(category)
     end
-
+    # call the get job api, and update the attributes hashes
     job_offers_attributes.flatten.map! do |result|
       call_api_getjob(result)
     end
+
+    # Once we've got the hashes completed.
+    # We can create JobOffers simply.
+
 
     # p job_offers_attributes
     # # create a job_offer instance for each result
@@ -81,13 +85,9 @@ class IndeedApi
       offer_serialized = open(url).read
       offer = JSON.parse(offer_serialized)
       fail unless offer['results']
-      p offer
-      p offer['results']
-      p offer['results'].first['url']
       job_offer_attributes[:description_additional] = offer['results'].first['snippet']
       job_offer_attributes[:url_source_original] = offer['results'].first['url']
       job_offer_attributes[:expired] = offer['results'].first['expired']
-
     rescue => e
       puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - jobkey: #{job_offer_attributes[:jobkey]}*****"
       sleep 2
