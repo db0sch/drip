@@ -38,6 +38,7 @@ group :development, :test do
   # Testing Framework (RSpec)
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers'
+  gem "rails-erd"
 end
 
 group :development do
