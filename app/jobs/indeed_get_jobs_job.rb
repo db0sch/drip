@@ -3,9 +3,11 @@ class IndeedGetJobsJob < ApplicationJob
 
   def perform
     indeed = IndeedApi.new(
-      publisher_key: ENV['indeed_publisher_key'],
-      categories: Category.to_array,
+      publisher_key: ENV["indeed_publisher_key"],
+      categories: Category.all.to_a,
+      limit: 10
     )
-    indeed.get_jobs
+    joboffers = indeed.get_jobs
+    puts "===> Number of job offers loaded from Indeed API: #{joboffers ? joboffers.count : 0}"
   end
 end
