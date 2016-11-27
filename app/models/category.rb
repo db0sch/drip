@@ -5,9 +5,9 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
 
-  def self.to_array
-    Category.all.map do |category|
-      category
-    end
-  end
+  # def self.to_array
+  #   Category.all.map do |category|
+  #     category
+  #   end
+  # end
 end

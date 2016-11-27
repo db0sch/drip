@@ -14,3 +14,7 @@
 
 #   describe
 # end
+
+
+# must test the private methods as well.
+# For this, use instace_eval

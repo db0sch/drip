@@ -8,4 +8,6 @@ class JobOffer < ApplicationRecord
   validates :title, :description, :category, :jobkey, presence: true
   validates_associated :company, :category
   validates :jobkey, uniqueness: true
+
+
 end
