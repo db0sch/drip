@@ -26,9 +26,7 @@ gem 'figaro'
 # Asynchronous Background Jobs
 gem 'sidekiq'
 gem 'sidekiq-failures'
-# Dependency for the Sidekiq Web UI
-#   => https://github.com/mperham/sidekiq/wiki/Monitoring
-gem 'sinatra', ">= 2.0.0.beta2", require: false
+
 
 
 
