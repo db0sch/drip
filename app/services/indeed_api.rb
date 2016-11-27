@@ -8,6 +8,7 @@ class IndeedApi
     @categories = attributes[:categories]
     @locations = attributes[:locations] || ["paris", "fr"]
     @limit = attributes[:limit]
+    @companies = Company.all.to_a
   end
 
   def get_jobs
@@ -90,13 +91,16 @@ class IndeedApi
   end
 
   def find_or_create_company(name)
-    if company = Company.find_by_name(name)
+    if company = @companies.find { |company| company.name == name }
       puts "Company: #{name} exist !!!"
       return company
     else
       puts "Company: #{name} doesn't exist yet. Let's create it."
-      return company = Company.create(name: name)
+      company = Company.create(name: name)
+      @companies << company
+      return company
     end
+
   end
 
   def get_all_jobkeys
