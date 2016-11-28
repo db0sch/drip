@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 2.3.1
 before_script:
-  - psql -c 'create database product_hunt_clone_test;' -U postgres
+  - psql -c 'create database drip_test;' -U postgres
