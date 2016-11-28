@@ -101,15 +101,16 @@ class IndeedApi
       offer_serialized = open(url).read
       offer = JSON.parse(offer_serialized)
       fail unless offer['results']
+      return job_offer_attributes if offer['results'].empty?
       p "updating job_offer #{job_offer_attributes[:jobkey]}"
-      job_offer_attributes[:description_additional] = offer['results'].first['snippet']
-      job_offer_attributes[:url_source_original] = offer['results'].first['url']
-      job_offer_attributes[:expired] = offer['results'].first['expired']
     rescue => e
       puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - jobkey: #{job_offer_attributes[:jobkey]}*****"
       sleep 2
       retry
     end
+    job_offer_attributes[:description_additional] = offer['results'].first['snippet']
+    job_offer_attributes[:url_source_original] = offer['results'].first['url']
+    job_offer_attributes[:expired] = offer['results'].first['expired']
     job_offer_attributes
   end
 
