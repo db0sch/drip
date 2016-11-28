@@ -9,5 +9,10 @@ class JobOffer < ApplicationRecord
   validates_associated :company, :category
   validates :jobkey, uniqueness: true
 
+  scope :current, -> { where(expired: false) }
+  scope :expired, -> { where(expired: true) }
 
+  def expires!
+    self.update(expired: true)
+  end
 end
