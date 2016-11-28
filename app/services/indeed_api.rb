@@ -33,6 +33,29 @@ class IndeedApi
     # the method will return JobOffer instances.
   end
 
+  def update_all_current_jobs
+    # load all current jobs (with expired: true)
+    joboffers = JobOffer.current
+    before_count = joboffers.count
+    joboffers.each do |joboffer|
+      # call the API and check if it return true
+      if call_api_getjob_expiry(joboffer.jobkey) == true
+        puts "JobOffer id: #{joboffer.id} and jobkey: #{joboffer.jobkey} is now expired !"
+        joboffer.update(expired: true)
+      end
+      # if it doesn't return true, we don't touch the instance.
+    end
+    # messages for logs
+    current_jobs = JobOffer.current
+    if before_count != current_jobs.count
+      puts "#{before_count - current_jobs.count} joboffers have expired"
+    else
+      puts "No joboffer has expired."
+    end
+
+    current_jobs
+  end
+
   private
 
   def call_api_search(category)
@@ -88,6 +111,22 @@ class IndeedApi
       retry
     end
     job_offer_attributes
+  end
+
+  def call_api_getjob_expiry(jobkey)
+    begin
+      url = "http://api.indeed.com/ads/apigetjobs?publisher=#{@publisher_key}&jobkeys=#{jobkey}&v=2&format=json"
+      offer_serialized = open(url).read
+      offer = JSON.parse(offer_serialized)
+      fail unless offer['results']
+      puts "checking expiration of job_offer with jobkey: #{jobkey}"
+      expired = offer['results'].first['expired']
+    rescue => e
+      puts "***** An error occurred call_api with message #{e.message}: retrying in 5 seconds - jobkey: #{job_offer_attributes[:jobkey]}*****"
+      sleep 2
+      retry
+    end
+    expired
   end
 
   def find_or_create_company(name)
