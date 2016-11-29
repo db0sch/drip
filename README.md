@@ -63,3 +63,7 @@ Moreover, we use these task on Heroku Scheduler, so we can trigger these jobs on
 
 ## Messenger Bot
 Not yet written. :-)
+
+
+## CONTACT
+You can contact me on Twitte: [@dimitribosch](https://twitter.com/dimitribosch)
