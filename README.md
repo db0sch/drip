@@ -1,3 +1,5 @@
+![travis](https://travis-ci.org/db0sch/drip.svg?branch=master)
+
 # DRIP
 
 * Ruby version => ruby 2.3.1p112
@@ -17,7 +19,7 @@ An API app that get job offers and distribute them through the Facebook Messenge
 The db_schema.xml file is included in this github repo.
 Here is a screenshot of the v1:
 
-![alt tag](db_schema_screenshot_v3.png)
+![db_schema](db_schema_screenshot_v3.png)
 
 ## Test
 ### RSpec
