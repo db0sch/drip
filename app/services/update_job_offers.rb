@@ -16,23 +16,6 @@ class UpdateJobOffers
     end
     puts jobs_expired.count > 0 ? "#{joboffers} have expired" : "No job expired this time."
     joboffers
-    #   # call the API and check if it return true
-    #   if call_api_getjob_expiry(joboffer.jobkey) == true
-    #     puts "JobOffer id: #{joboffer.id} and jobkey: #{joboffer.jobkey} is now expired !"
-    #     joboffer.update(expired: true)
-    #   end
-    #   # if it doesn't return true, we don't touch the instance.
-    # end
-    # # messages for logs
-    # current_jobs = JobOffer.current
-    # if before_count != current_jobs.count
-    #   puts "#{before_count - current_jobs.count} joboffers have expired"
-    # else
-    #   puts "No joboffer has expired."
-    # end
-
-    # current_jobs
-
   end
 
   def check_expiry_only_for(joboffer)
