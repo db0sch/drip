@@ -10,6 +10,7 @@ class UpdateJobOffers
     joboffers = JobOffer.current.to_a
     jobs_expired = joboffers.select do |joboffer|
       result = @api.get_job(joboffer.jobkey)
+      puts "checking expiry for joboffer: #{joboffer.jobkey}"
       joboffer.expires! if expired?(result)
       joboffer.expired
       # rescue if expired?(result) fail

@@ -25,6 +25,7 @@ class FetchJobOffers
 
   def reject_existing_joboffers(array_of_attributes)
     jobkeys = JobOffer.pluck(:jobkey)
+    puts "let's take off the joboffer we already have!"
     array_of_attributes.reject do |attributes|
       jobkeys.include? attributes[:jobkey]
     end
@@ -33,6 +34,7 @@ class FetchJobOffers
   def partial_update(attributes = {})
     result = @api.get_job(attributes[:jobkey])
     unless result.nil? || result.empty?
+      puts "final update"
       attributes[:description_additional] = result['snippet']
       attributes[:url_source_original] = result['url']
       attributes[:expired] = result['expired']
@@ -56,6 +58,7 @@ class FetchJobOffers
   def call_api_for_all_params
     results = @categories.map do |category|
       @locations.map do |location|
+        puts "API call for location: #{location[:city]}, #{location[:country]} & category: #{category.name}"
         result = @api.search_jobs(category, location, @limit)
         creating_hash(result, category, location)
       end
