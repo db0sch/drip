@@ -52,6 +52,11 @@ RSpec.describe JobOffer, type: :model do
     it "should validates_associates company" do
       expect(subject.company).to be_valid
     end
+
+    it 'is not approved by default' do
+      subject.save
+      expect(subject.approved).to be false
+    end
   end
 
   describe "Associations" do
@@ -60,5 +65,21 @@ RSpec.describe JobOffer, type: :model do
     it { should belong_to(:company) }
     it { should belong_to(:category) }
     it { should have_many(:interests) }
+  end
+
+  describe "#approved!" do
+    it "approves the job offer" do
+      subject.approved!
+      expect(subject.approved?).to be true
+    end
+  end
+
+  describe "#approved?" do
+    it "returns if the job offer is approved or not" do
+      subject.save
+      expect(subject.approved?).to be(false)
+      subject.approved!
+      expect(subject.approved?).to be(true)
+    end
   end
 end

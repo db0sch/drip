@@ -1,4 +1,6 @@
 class JobOffer < ApplicationRecord
+  before_create :default_values
+
   belongs_to :company
   belongs_to :category
   has_many :submissions
@@ -15,5 +17,20 @@ class JobOffer < ApplicationRecord
 
   def expires!
     self.update(expired: true)
+  end
+
+  def approved?
+    return approved
+  end
+
+  def approved!
+    update(approved: true)
+    return approved
+  end
+
+  private
+
+  def default_values
+    self.approved ||= false
   end
 end
