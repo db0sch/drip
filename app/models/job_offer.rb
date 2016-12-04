@@ -18,16 +18,21 @@ class JobOffer < ApplicationRecord
   scope :not_approved, -> { where(approved: false) }
 
   def expires!
-    self.update(expired: true)
+    update(expired: true)
+    expired
+  end
+
+  def expired?
+    expired
   end
 
   def approved?
-    return approved
+    approved
   end
 
   def approved!
     update(approved: true)
-    return approved
+    approved
   end
 
   private
