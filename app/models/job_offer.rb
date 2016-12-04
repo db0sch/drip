@@ -5,7 +5,7 @@ class JobOffer < ApplicationRecord
   has_many :users, through: :submissions
   has_many :interests, through: :submissions
 
-  validates :title, :description, :category, :jobkey, presence: true
+  validates :title, :description, :category, :company, :jobkey, presence: true
   validates_associated :company, :category
   validates :jobkey, uniqueness: true
 
