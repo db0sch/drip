@@ -27,6 +27,11 @@ gem 'figaro'
 gem 'sidekiq'
 gem 'sidekiq-failures'
 
+# log analytics
+gem 'rollbar'
+# a fast optimized json (required by rollbar)
+gem 'oj', '~> 2.12.14'
+
 
 
 
