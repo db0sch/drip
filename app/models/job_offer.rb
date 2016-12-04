@@ -1,4 +1,6 @@
 class JobOffer < ApplicationRecord
+  before_create :default_values
+
   belongs_to :company
   belongs_to :category
   has_many :submissions
@@ -12,8 +14,30 @@ class JobOffer < ApplicationRecord
   # default_scope { where(expired: ) }
   scope :current, -> { where(expired: false) }
   scope :expired, -> { where(expired: true) }
+  scope :approved, -> { where(approved: true) }
+  scope :not_approved, -> { where(approved: false) }
 
   def expires!
-    self.update(expired: true)
+    update(expired: true)
+    expired
+  end
+
+  def expired?
+    expired
+  end
+
+  def approved?
+    approved
+  end
+
+  def approved!
+    update(approved: true)
+    approved
+  end
+
+  private
+
+  def default_values
+    self.approved ||= false
   end
 end
