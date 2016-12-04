@@ -14,6 +14,8 @@ class JobOffer < ApplicationRecord
   # default_scope { where(expired: ) }
   scope :current, -> { where(expired: false) }
   scope :expired, -> { where(expired: true) }
+  scope :approved, -> { where(approved: true) }
+  scope :not_approved, -> { where(approved: false) }
 
   def expires!
     self.update(expired: true)
