@@ -28,5 +28,9 @@ module Drip
     config.api_only = true
 
     config.active_job.queue_adapter = :sidekiq
+
+    # Auto-load the bot and its subdirectories
+    config.paths.add File.join('app', 'bot'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'bot', '*')]
   end
 end
