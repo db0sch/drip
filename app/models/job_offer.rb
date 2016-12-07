@@ -34,4 +34,9 @@ class JobOffer < ApplicationRecord
     approved
   end
 
+  def self.select_by_category(category)
+    JobOffer.approved.select do |joboffer|
+      joboffer.category == category
+    end
+  end
 end
