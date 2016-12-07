@@ -32,6 +32,9 @@ gem 'rollbar'
 # a fast optimized json (required by rollbar)
 gem 'oj', '~> 2.12.14'
 
+# Facebook Messenger
+gem 'facebook-messenger'
+
 
 
 
