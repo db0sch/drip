@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204100904) do
+ActiveRecord::Schema.define(version: 20161207064839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20161204100904) do
     t.date     "start_date"
     t.integer  "company_id"
     t.integer  "category_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.text     "description_additional"
     t.string   "formatted_location"
     t.string   "city"
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20161204100904) do
     t.text     "url_source_original"
     t.string   "jobkey"
     t.boolean  "expired"
-    t.boolean  "approved"
+    t.boolean  "approved",               default: false
     t.index ["category_id"], name: "index_job_offers_on_category_id", using: :btree
     t.index ["company_id"], name: "index_job_offers_on_company_id", using: :btree
   end
