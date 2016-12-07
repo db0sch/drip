@@ -1,5 +1,4 @@
 class JobOffer < ApplicationRecord
-  before_create :default_values
 
   belongs_to :company
   belongs_to :category
@@ -35,9 +34,4 @@ class JobOffer < ApplicationRecord
     approved
   end
 
-  private
-
-  def default_values
-    self.approved ||= false
-  end
 end
