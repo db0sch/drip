@@ -9,3 +9,5 @@
 Category.create(name: "livreur")
 Category.create(name: "hotesse")
 Category.create(name: "extra")
+
+User.create(name: "Dimitri Bosch", email: 'dimitribosch@gmail.com', messenger_uid: "1897396409873", driver_licence: true)

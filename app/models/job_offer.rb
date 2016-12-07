@@ -10,7 +10,6 @@ class JobOffer < ApplicationRecord
   validates_associated :company, :category
   validates :jobkey, uniqueness: true
 
-  # default_scope { where(expired: ) }
   scope :current, -> { where(expired: false) }
   scope :expired, -> { where(expired: true) }
   scope :approved, -> { where(approved: true) }
